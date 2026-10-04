@@ -1,0 +1,15 @@
+Build a Rest Api 
+
+GET /users - HTML rendering(Browser)
+GET /api/users - get all users data(JSON) - mobile users 
+
+GET /api/users/1 - get user with ID 1 
+
+POST /api/users - Create a new user
+
+PATCH /api/users/1 - Edit the user with ID 1 
+
+DELETE /api/users/1 - Delete the user with ID 1
+
+Dynamic parameters :-> 
+:x -> it is a Dynamic/Variable parameter 

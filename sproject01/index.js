@@ -55,11 +55,10 @@ app.use(express.urlencoded ({extended : false}));
 //Routes 
 app.get("/users", async (req, res) => {
     const allDbUsers = await User.find({});
-    const html = `
-    <ul>
+    const html =
+    `<ul>
     ${allDbUsers.map((users) => `<li> ${users.firstName} -> ${users.jobTitle}</li>`).join("")}
-    </ul>
-    `;
+    </ul>`;
     res.send(html);
 })
 
@@ -143,4 +142,64 @@ app.post("/api/users", async (req, res) => {
 //     //Delete the user with id
 //     return res.json({status : "Pending"});
 // })
+
+
+
+//In Node.js (specifically for http.Server or net.Server), 
+// the listen method is used to start the server, bind it 
+// to a specific network address, port, or file path, and 
+// begin accepting incoming client connections and HTTP 
+// requests. Once called, the server stays running and waits for traffic.
 app.listen(PORT, () => console.log(`Server started PORT : ${PORT}`));
+
+
+//1. listen(port: number, hostname: string, backlog: number, callback?: (error?: Error) => void)
+// What it does: Binds the server to a specific port and hostname (IP address or domain), sets the 
+// maximum length of the pending connections queue (backlog), and triggers the callback function 
+// once the server has successfully started.
+
+// Parameters:
+
+// port: The port number to listen on (e.g., 8080).
+
+// hostname: The IP address or interface (e.g., '127.0.0.1' or '0.0.0.0').
+
+// backlog: The maximum number of queued connections waiting to be accepted.
+
+// callback: Function executed once the server starts listening.
+
+// 2. listen(port: number, hostname: string, callback?: (error?: Error) => void)
+// What it does: Same as above, but omits the explicit backlog parameter, using the operating system's
+//  default backlog value instead.
+
+// Use case: When you want to specify both a port and a specific network interface without worrying 
+// about connection queue limits.
+
+// 3. listen(port: number, callback?: (error?: Error) => void)
+// What it does: Binds the server to the specified port on all available network interfaces 
+// (INADDR_ANY / 0.0.0.0), meaning it accepts connections from localhost, your local network, and 
+// (if public) the internet.
+
+// Use case: The most common way to start a standard web server locally or in production 
+// (e.g., server.listen(3000)).
+
+// 4. listen(callback?: (error?: Error) => void)
+// What it does: Starts the server on a random/ephemeral port assigned automatically by the operating system,
+//  binding it to localhost.
+
+// Use case: Frequently used in automated testing (like Jest or Mocha) where you want to spin up a server
+//  instance on a free port without risking port-collision errors.
+
+// 5. listen(path: string, callback?: (error?: Error) => void)
+// What it does: Listens for connections on a UNIX domain socket or named pipe specified by the file path
+//  (instead of a TCP port).
+
+// Use case: Used on Unix/Linux systems for high-performance, secure local Inter-Process Communication (IPC)
+//  between apps running on the same machine (e.g., /tmp/app.sock).
+
+// 6. listen(handle: any, listeningListener?: (error?: Error) => void)
+// What it does: Listens on a given handle, which can be a pre-bound socket, a file descriptor, or a 
+// server handle passed from another process (such as when using Node.js's cluster module to share a 
+// port across multiple worker threads).
+
+// Use case: Advanced load balancing and multi-core process clustering.

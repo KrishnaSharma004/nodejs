@@ -1,6 +1,24 @@
 const URL = require("../models/url");
 const shortid = require("shortid");
 
+
+async function handleGetAnalytics(req, res) {
+    const ShortID = req.params.ShortID;
+    console.log(ShortID);
+    const url = await URL.findOne({ShortID});
+    console.log(url);
+    if(!url){
+        return res.json({error : "invalid short ID"});
+    }
+    return res.json({NumberOfClicks : url.VisitHistory.length  , VisitHistory : url.VisitHistory})
+}
+async function handleGetHomepage(req, res) {
+    const allUrls = await URL.find({});
+    return res.render("home", {
+        urls : allUrls,
+    });
+}
+
 async function handleGenerateShortId(req, res) {
     const body = req.body;
     if(!body.url){
@@ -12,8 +30,9 @@ async function handleGenerateShortId(req, res) {
         ReDirectedURL : body.url,
         VisitHistory : [],
     })
-    console.log(result);
-    return res.status(201).json({status : "short id is created", short_id : ShortID});
+    return res.render("home", {
+        id : ShortID,
+    })
 };
 
 async function handleRedirectTheUser(req, res) {
@@ -30,5 +49,7 @@ async function handleRedirectTheUser(req, res) {
 }
 module.exports = {
     handleGenerateShortId,
-    handleRedirectTheUser
+    handleRedirectTheUser,
+    handleGetHomepage,
+    handleGetAnalytics,
 }

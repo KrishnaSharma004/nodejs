@@ -13,7 +13,10 @@ async function handleGetAnalytics(req, res) {
     return res.json({NumberOfClicks : url.VisitHistory.length  , VisitHistory : url.VisitHistory})
 }
 async function handleGetHomepage(req, res) {
-    const allUrls = await URL.find({});
+    console.log(req.user);
+    if(!req.user) return res.redirect("/login");
+    const allUrls = await URL.find({createdBy : req.user._id});
+    console.log(allUrls);
     return res.render("home", {
         urls : allUrls,
     });
@@ -29,6 +32,7 @@ async function handleGenerateShortId(req, res) {
         ShortID : ShortID,
         ReDirectedURL : body.url,
         VisitHistory : [],
+        createdBy : req.body._id,
     })
     return res.render("home", {
         id : ShortID,

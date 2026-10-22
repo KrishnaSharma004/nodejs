@@ -2,7 +2,7 @@ const express = require("express");
 const { handleGenerateShortId,
         handleRedirectTheUser,
         handleGetAnalytics
-        } = require("../constrollers/index");
+        } = require("../constrollers/url");
 const router = express.Router();
 
 router.post("/" , handleGenerateShortId);

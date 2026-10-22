@@ -1,6 +1,6 @@
 const express = require("express");
 const { handleGetHomepage,
-        } = require("../constrollers/index");
+        } = require("../constrollers/url");
 
 const router = express.Router();
 

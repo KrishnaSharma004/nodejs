@@ -32,10 +32,14 @@ async function handleGenerateShortId(req, res) {
         ShortID : ShortID,
         ReDirectedURL : body.url,
         VisitHistory : [],
-        createdBy : req.body._id,
+        createdBy : req.user._id,
     })
+    console.log(result);
+    console.log(req.user._id);
+    const allUrls = await URL.find({createdBy : req.user._id});
     return res.render("home", {
         id : ShortID,
+        urls : allUrls
     })
 };
 

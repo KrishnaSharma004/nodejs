@@ -8,7 +8,7 @@ const app = express();
 const userroute = require("./routes/user");
 const UrlRoute = require("./routes/url");
 const staticRoute = require("./routes/staticRouter");
-const { restrictToLoggedInUserOnly , checkAuth} = require("./middleware/auth");
+const { checkForAuthentication , restrictTo} = require("./middleware/auth");
 const PORT = 8001;
 
 // DB connection : 
@@ -22,11 +22,11 @@ app.set("views", path.resolve("./views"));
 app.use(express.json());
 app.use(express.urlencoded ({extended : false}));
 app.use(cookieParser());
+app.use(checkForAuthentication);
 
-
+app.use("/url",restrictTo(["NORMAL", "ADMIN"]) , UrlRoute);
 app.use("/user", userroute);
-app.use("/" , checkAuth ,staticRoute);
+app.use("/" ,staticRoute);
 
-app.use("/url",restrictToLoggedInUserOnly , UrlRoute);
 
 app.listen(PORT, () => console.log("Server started at PORT :", PORT));

@@ -13,8 +13,6 @@ async function handleGetAnalytics(req, res) {
     return res.json({NumberOfClicks : url.VisitHistory.length  , VisitHistory : url.VisitHistory})
 }
 async function handleGetHomepage(req, res) {
-    console.log(req.user);
-    if(!req.user) return res.redirect("/login");
     const allUrls = await URL.find({createdBy : req.user._id});
     console.log(allUrls);
     return res.render("home", {
